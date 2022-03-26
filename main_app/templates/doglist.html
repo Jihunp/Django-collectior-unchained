@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+    <form>
+        <div>
+            <input type="text" name="name" placeholder="name"/>
+            <input type="submit" value="Search"/>
+        </div>
+        <a href="{% url 'dog_list' %}">Clear Search</a>
+    </form>
     <h1>Our Dogs:</h1>
+    <h1>{{header}}</h1>
     {% for dog in dogs %}
+    <img src="{{dog.img}}" alt="{{dog.name}}">
     <h3>Name: {{dog.name}}</h3>
     <h3>Age: {{dog.age}}</h3>
     <h3>Gender: {{dog.gender}}</h3>
