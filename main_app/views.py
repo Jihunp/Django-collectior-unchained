@@ -37,5 +37,7 @@ class DogList(TemplateView):
 dogs = [
     Dog("woof", 5, "male"),
     Dog("arf", 2, "female"),
+    Dog("power", 45, "female"),
+    Dog("drive", 423, "male"),
 ]
 
