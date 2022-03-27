@@ -1,11 +1,17 @@
+from dataclasses import fields
+from nis import cat
 from pipes import Template
 from re import template
+from sre_constants import SUCCESS
 from unicodedata import name
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView
 from .models import Dog
+from django.views.generic import DetailView
+from django.urls import reverse
 
 # Create your views here.
 
@@ -23,13 +29,6 @@ class Home(TemplateView):
 class About(TemplateView):
     template_name= "about.html"
 
-# class Dog:
-#     def __init__(self, name, img, age, gender):
-#         self.name = name
-#         self.img = img
-#         self.age = age
-#         self.gender = gender
-
 class DogList(TemplateView):
     template_name = 'doglist.html'
 
@@ -41,8 +40,25 @@ class DogList(TemplateView):
             context["header"] = f"Searching for {name}"
         else:
             context["dogs"] = Dog.objects.all() #add a key into the context object for view
-            context["header"] = "Our Cats"
+            context["header"] = "Our Dogs:"
         return context
 
+class Dog_create(CreateView):
+    model = Dog
+    fields = ['name', 'img', 'age', 'gender']
+    template_name = 'dog_create.html'
+    # success_url = '/dogs/'
+    def get_success_url(self):
+        return reverse('dog_detail', kwarges={'pk': self.object.pk})
 
+class Dog_Detail(DetailView):
+    model = Dog
+    template_name = "dog_detail.html"
 
+class Dog_Update(UpdateView):
+    model = Dog
+    fields = ['name', 'img', 'age', 'gender']
+    template_name = "dog_update.html"
+    # success_url = "/dogs"
+    def get_success_url(self):
+        return reverse('dog_detail', kwargs={'pk': self.object.pk})
