@@ -12,6 +12,6 @@
 
 <div>
     <a href="{% url 'dog_update' dog.pk %}">Update</a>
-    <a href=""></a>
+    <a href="{% url 'dog_delete' dog.pk %}">Delete</a>
 </div>
 {% endblock %}
