@@ -3,7 +3,7 @@ from django.views import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Dog
+from .models import Dog, DogToy
 from django.views.generic import DetailView
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -40,7 +40,7 @@ class DogList(TemplateView):
 
 class Dog_Create(CreateView):
     model = Dog
-    fields = ['name', 'img', 'age', 'gender']
+    fields = ['name', 'img', 'age', 'gender', 'dogtoys']
     template_name = 'dog_create.html'
     # success_url = '/dogs/'
     def get_success_url(self):
@@ -59,7 +59,7 @@ class Dog_Detail(DetailView):
 
 class Dog_Update(UpdateView):
     model = Dog
-    fields = ['name', 'img', 'age', 'gender']
+    fields = ['name', 'img', 'age', 'gender', 'dogtoys']
     template_name = "dog_update.html"
     # success_url = "/dogs"
     def get_success_url(self):
@@ -74,3 +74,30 @@ def profile(request, username):
     user = User.objects.get(username=username)
     dogs = Dog.objects.filter(user=user)
     return render(request, 'profile.html', {'username': username, 'dogs': dogs})
+
+
+def dogtoys_index(request):
+    dogtoys = DogToy.objects.all()
+    return render(request, 'dogtoy_index.html', {'dogtoys': dogtoys})
+
+def dogtoys_show(request, dogtoy_id):
+    dogtoy = DogToy.objects.get(id=dogtoy_id)
+    return render(request, 'dogtoy_show.html', {'dogtoy': dogtoy})
+
+class DogToyCreate(CreateView):
+    model = DogToy
+    fields = '__all__'
+    template_name = "dogtoy_form.html"
+    success_url = '/dogtoys'
+
+class DogToyUpdate(UpdateView):
+    model = DogToy
+    fields = ['name', 'color']
+    template_name = "dogtoy_update.html"
+    success_url = '/dogtoys'
+
+class DogToyDelete(DeleteView):
+    model = DogToy
+    template_name = "dogtoy_confirm_delete.html"
+    success_url = '/dogtoys'
+

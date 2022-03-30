@@ -12,10 +12,13 @@
 </head>
 <body>
     <nav>
+        <a href="/admin">Admin</a>
         <a href="/" >Home</a>
-        <a href="about/" >About</a>
-        <a href="dogs/" >Dog List</a>
-        <a href="dogs/new/" >Dog Create</a>
+        <a href="/about">About</a>
+        <a href="/dogs">Dog List</a>
+        <a href="dogtoys/">Dog Toys</a>
+        <a href="{% url 'dog_create' %}" >Dog Create</a>
+        <a href="{% url 'dogtoys_create' %}" >Dog Toy Create</a>
     </nav>
 
 

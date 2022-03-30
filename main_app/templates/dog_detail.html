@@ -8,10 +8,17 @@
 <div>
     <h3>Age: {{cat.age}}</h3>
     <h3>Gender: {{cat.gender}}</h3>
+
+    {% for dogtoy in dog.dogtoys.all %}
+        <div>{{dogtoy.name}}</div>
+    {% empty %}
+        <div>Dog Has No Toys</div>
+    {% endfor %}
 </div>
 
 <div>
     <a href="{% url 'dog_update' dog.pk %}">Update</a>
     <a href="{% url 'dog_delete' dog.pk %}">Delete</a>
 </div>
+
 {% endblock %}
