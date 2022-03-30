@@ -1,17 +1,12 @@
-from dataclasses import fields
-from nis import cat
-from pipes import Template
-from re import template
-from sre_constants import SUCCESS
-from unicodedata import name
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Dog
 from django.views.generic import DetailView
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -43,13 +38,20 @@ class DogList(TemplateView):
             context["header"] = "Our Dogs:"
         return context
 
-class Dog_create(CreateView):
+class Dog_Create(CreateView):
     model = Dog
     fields = ['name', 'img', 'age', 'gender']
     template_name = 'dog_create.html'
     # success_url = '/dogs/'
     def get_success_url(self):
         return reverse('dog_detail', kwarges={'pk': self.object.pk})
+    
+    def form_valid(self, form):
+        self.object = form.save(commit= False)
+        self.object.user = self.requset.user
+        self.object.save()
+        return HttpResponseRedirect('/dogs')
+
 
 class Dog_Detail(DetailView):
     model = Dog
@@ -67,3 +69,8 @@ class Dog_Delete(DeleteView):
     model = Dog
     template_name = "dog_delete_confirmation.html"
     success_url = "/dogs/"
+
+def profile(request, username):
+    user = User.objects.get(username=username)
+    dogs = Dog.objects.filter(user=user)
+    return render(request, 'profile.html', {'username': username, 'dogs': dogs})

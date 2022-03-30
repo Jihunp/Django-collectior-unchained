@@ -11,6 +11,14 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <nav>
+        <a href="/" >Home</a>
+        <a href="about/" >About</a>
+        <a href="dogs/" >Dog List</a>
+        <a href="dogs/new/" >Dog Create</a>
+    </nav>
+
+
     {% block content %}
     <h1>Home</h1>
     {% endblock %}
