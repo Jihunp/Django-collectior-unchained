@@ -12,13 +12,30 @@
 </head>
 <body>
     <nav>
+        {% if user.is_authenticated %}
+        <span><a href="{% url 'profile' user.username %}">Hello, {{ user.username }}!</a></span>
+        <span> | </span>
+        <span><a href="{% url 'logout' %}">Logout</a></span>
+        <span> | </span>
+        {% else %}
+        <span><a href="{% url 'login' %}">Login</a></span>
+        <span> | </span>
+        <span><a href="{% url 'signup' %}">SignUp</a></span>
+        {% endif %}
         <a href="/admin">Admin</a>
-        <a href="/" >Home</a>
+        <span> | </span>
+        <a href="/">Home</a>
+        <span> | </span>
         <a href="/about">About</a>
-        <a href="/dogs">Dog List</a>
-        <a href="dogtoys/">Dog Toys</a>
-        <a href="{% url 'dog_create' %}" >Dog Create</a>
-        <a href="{% url 'dogtoys_create' %}" >Dog Toy Create</a>
+        <span> | </span>
+        <a href="/dogs">Dogs</a>
+        <span> | </span>
+        <a href="/dogtoys">Dog Toys</a>
+        <span> | </span>
+        <a href="{% url 'dog_create' %}">Add a Dog</a>
+        <span> | </span>
+        <a href="{% url 'dogtoys_create' %}">Add a DogToy</a>
+        <span> | </span>
     </nav>
 
 
