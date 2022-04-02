@@ -126,12 +126,11 @@ def login_view(request):
                     login(request, user)
                     return HttpResponseRedirect('/user/'+use)
                 else:
-                    print('The account has been disabled')
-                    # can redirect users here
+                    return render(request, 'login.html', {'form': form})
             else:
-                print('Username and/or password is incorrect')
+                return render(request, 'login.html', {'form': form})
+        else: return render(request, 'login.html', {'form': form})
     else:
-        # user goes to login page
         form = AuthenticationForm()
         return render(request, 'login.html', {'form': form})
 
@@ -148,7 +147,7 @@ def signup_view(request):
             print('Hey', user.username)
             return HttpResponseRedirect('/user/'+str(user.username))
         else:
-            HttpResponse('<h1>Please Try Again</h1>')
+            return render(request, 'signup.html', {'form': form})
     else:
         form = UserCreationForm()
         return render(request, 'signup.html', {'form': form})
