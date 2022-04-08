@@ -54,7 +54,7 @@ class Dog_Create(CreateView):
     
     def form_valid(self, form):
         self.object = form.save(commit= False)
-        self.object.user = self.requset.user
+        self.object.user = self.request.user
         self.object.save()
         return HttpResponseRedirect('/dogs')
 
